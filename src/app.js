@@ -59,9 +59,13 @@ app.delete("/repositories/:id", (request, response) => {
 
   if(!isUuid(id)){return response.status(400).json("Id does not valid");}
 
-  const repository = repositories.find(repo => repo.id === id);
+  const repositoryIndex = repositories.findIndex(repo => repo.id === id);
 
-  repositories.splice(repository, 1);
+  if(repositoryIndex < 0 ){
+    return response.status(400).json("Repository does not exist");
+  }
+  
+  repositories.splice(repositoryIndex, 1);
 
  return response.status(204).send();
 });
